@@ -2,7 +2,6 @@
 const button=document.getElementById('my-button');
 const input2=document.getElementById('buzzvalue');
 const input1=document.getElementById('fizzvalue');
-
 button.addEventListener('click',()=>{  
   const boxNum =document.getElementById('box');
   const fizz=input1.value;
