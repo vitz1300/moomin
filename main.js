@@ -1,33 +1,37 @@
 'use strict'
 const addButton = document.getElementById('addbutton');
-    const state = {
-      count:0,
-    }
+
 addButton.addEventListener('click', () => {
   const table = document.getElementById('myTable');//テーブル取得
-  const newRow = table.insertRow();//行の末に行を追加
-    
-  const todo = {
-      content : document.getElementById('comment'),
-      status : document.createElement('input'),
-      delete : document.createElement('input'),
-    };
-    
-    const cellId = newRow.insertCell();//セルの追加
-    cellId.innerHTML = ++state.count;//IDの追加
-    
-    const task = todo.content.value;//コメントの内容
-    const cellComment = newRow.insertCell();//セルの追加
-    cellComment.textContent= task;//コメントの内容表示
-    
-    const cellStatus = newRow.insertCell();
-    todo.status.type='button';
-    todo.status.value='作業中';
-    cellStatus.appendChild(todo.status);
-    
-    const cellDelete = newRow.insertCell();
-    todo.delete.type='button';
-    todo.delete.value='削除';
-    cellDelete.appendChild(todo.delete);
-  });
+  const newRow = table.insertRow(-1);//行の末に行を追加
+  const cellA = newRow.insertCell(-1);//セルの追加
+  const cellB = newRow.insertCell(-1);//セルの追加
+  const cellC = newRow.insertCell(-1);
+  const cellD = newRow.insertCell(-1);
   
+  const countUp = () =>{
+    const row = myTable.rows.length -1;
+    cellA.innerHTML = row;
+  };
+
+  const content = () =>{
+    const comment = document.getElementById('comment');//input取得
+    const commentValue = comment.value;//inputの文字列を取得
+    cellB.innerHTML = commentValue;
+  };
+  
+  const work = () =>{//作業中ボタンの関数
+    cellC.innerHTML = '<input type="button" value="作業中"> '
+  }; 
+  const erase = () => {
+    cellD.innerHTML = '<input type="button" value="削除"> '
+  };
+  const todos = [];
+  const todo = {
+    id: countUp(),
+    comment: content(),
+    work: work(),
+    erace: erase(),
+  }
+  todo.push = todos;
+});
