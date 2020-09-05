@@ -1,36 +1,39 @@
 'use strict'
-const addButton = document.getElementById('addbutton');//ボタン取得
-addButton.addEventListener('click', () => {
-  const table = document.getElementById('myTable');//テーブル取得
-  const newRow = table.insertRow(-1);//行の末に行を追加
-  const cellA = newRow.insertCell(-1);//セルの追加
-  const cellB = newRow.insertCell(-1);//セルの追加
-  const cellC = newRow.insertCell(-1);//セルの追加
-  const cellD = newRow.insertCell(-1);//セルの追加
-  
-  const countUp = () =>{  //ID番号
-    const row = myTable.rows.length -1;
-    cellA.innerHTML = row;
-  };
 
-  const content = () =>{
-    const comment = document.getElementById('comment');//input取得
-    const commentValue = comment.value;//inputの文字列を取得
-    cellB.innerHTML = commentValue;
+{
+  const head = {
+    0: '==========================',
+    1: '現在持っているのタスク一覧',
+    2: '==========================',
   };
-  
-  const work = () =>{//作業中ボタンの関数
-    cellC.innerHTML = '<input type="button" value="作業中"> '
-  }; 
-  const erase = () => {//削除ボタンの関数
-    cellD.innerHTML = '<input type="button" value="削除"> '
+  const tasks = ['掃除','買い物','散歩'];
+  const heads = Object.keys(head);
+  heads.forEach(key =>{
+    console.log(`${head[key]}`);
+  });
+  for(let i = 0; i < tasks.length; i++){
+    console.log(`${i}:${tasks[i]}`);
   };
-  const todos = [];
-  const todo = {
-    id: countUp(),
-    comment: content(),
-    work: work(),
-    erace: erase(),
-  }
-  todo.push = todos;
+}
+
+
+{
+const head = {
+  0: '==========================',
+  1: '現在持っているのタスク一覧',
+  2: '==========================',
+}
+
+const tasks = ['掃除','買い物','散歩'];
+const content = prompt();
+const heads = Object.keys(head);
+heads.forEach(key =>{
+  console.log(`${head[key]}`);
 });
+tasks.push(content)
+for(let i = 0; i < tasks.length; i++){
+  console.log(`${i}:${tasks[i]}`);
+};
+alert('新しいタスクを追加しました');
+prompt('「確認、追加、削除、終了」の4つのいずれかを入力してください');
+}
