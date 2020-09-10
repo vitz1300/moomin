@@ -1,30 +1,38 @@
 'use strict'
-const main =`==========================\n現在持っているのタスク一覧\n==========================`;
-const tasks = [
-  {content: '机を片付ける、', genre:'掃除'},
-  {content: '牛乳を買う、', genre:'買い物'},
-  {content: '散歩する', genre:'運動'},
-];
+const addButton = document.getElementById('addbutton');
 
-  function show(){
-      console.log(main);
-      let id = Object.keys(tasks);
-      const contents = tasks.map(item => item.content);
-      const genres = tasks.map(item => item.genre);
-      for(let i = 0; i < id.length; i++){
-        console.log(id[i]+':[内容]'+contents[i]+'[ジャンル]'+genres[i]);  
-      }
-      };
-  show();
+addButton.addEventListener('click', () => {
 
+  const table = document.getElementById('myTable');//テーブル取得
+  const newRow = table.insertRow(-1);//行の末に行を追加
+  const cellA = newRow.insertCell(-1);//セルの追加
+  const cellB = newRow.insertCell(-1);//セルの追加
+  const cellC = newRow.insertCell(-1);
+  const cellD = newRow.insertCell(-1);
+  
+  const countUp = () =>{
+    const row = myTable.rows.length -1;
+    cellA.innerHTML = row;
+  };
 
-function add(){
-  const a = prompt('タスクを入力してください');
-  const b = prompt('タスクを入力してください');
-  tasks.push({content:a,genre:b});
-  show();
-  alert('新しいタスクを追加しました');
-  prompt('「確認、追加、削除、終了」の4つのいずれかを入力してください');
-}
-add();
-
+  const content = () =>{
+    const comment = document.getElementById('comment');//input取得
+    const commentValue = comment.value;//inputの文字列を取得
+    cellB.innerHTML = commentValue;
+  };
+  
+  const work = () =>{//作業中ボタンの関数
+    cellC.innerHTML = '<input type="button" value="作業中"> '
+  }; 
+  const erase = () => {
+    cellD.innerHTML = '<input type="button" value="削除"> '
+  };
+  const todos = [];
+  const todo = {
+    id: countUp(),
+    comment: content(),
+    work: work(),
+    erace: erase(),
+  }
+  todo.push = todos;
+});
