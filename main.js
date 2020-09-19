@@ -1,38 +1,37 @@
 'use strict'
 const addButton = document.getElementById('addbutton');
+const table = document.getElementById('my_tbody');//テーブル取得
+const todos = [];
+console.log(todos);
 
 addButton.addEventListener('click', () => {
+  const task = {
+    comment: document.getElementById('comment').value,
+    status: '作業中',
+  }    
+  todos.push(task);
+  table.innerHTML = "";
+  console.log(todos);  
 
-  const table = document.getElementById('myTable');//テーブル取得
-  const newRow = table.insertRow(-1);//行の末に行を追加
-  const cellA = newRow.insertCell(-1);//セルの追加
-  const cellB = newRow.insertCell(-1);//セルの追加
-  const cellC = newRow.insertCell(-1);
-  const cellD = newRow.insertCell(-1);
-  
-  const countUp = () =>{
-    const row = myTable.rows.length -1;
-    cellA.innerHTML = row;
-  };
-
-  const content = () =>{
-    const comment = document.getElementById('comment');//input取得
-    const commentValue = comment.value;//inputの文字列を取得
-    cellB.innerHTML = commentValue;
-  };
-  
-  const work = () =>{//作業中ボタンの関数
-    cellC.innerHTML = '<input type="button" value="作業中"> '
-  }; 
-  const erase = () => {
-    cellD.innerHTML = '<input type="button" value="削除"> '
-  };
-  const todos = [];
-  const todo = {
-    id: countUp(),
-    comment: content(),
-    work: work(),
-    erace: erase(),
-  }
-  todo.push = todos;
+  for(let i = 0; i < todos.length; i++){
+    table.innerHTML = todos.length;
+    table.innerHTML = todos[comment];
+    const statsBtn = document.createElement('button');
+    statsBtn.textContent = task.status;
+    table.appendChild(statsBtn);
+    const eraceBtn = document.createElement('button');
+    eraceBtn.textContent = '削除';
+    table.appendChild(eraceBtn);
+    }
 });
+// const A = table.textContent = comment.value
+// const B = table.appendChild(aButton)
+// aButton.value = '作業中';
+// aButton.type = 'button';
+// const C = table.appendChild(dButton)
+// dButton.type = 'button';
+// dButton.value = '削除';
+//const aButton = document.createElement('input');
+//const dButton = document.createElement('input');
+//const tasks = Object.keys(task) 
+//const comment = document.getElementById('comment');//input取得
