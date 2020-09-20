@@ -10,28 +10,25 @@ addButton.addEventListener('click', () => {
     status: '作業中',
   }    
   todos.push(task);
-  table.innerHTML = "";
   console.log(todos);  
+  
+  table.innerHTML = "";
+  const key = Object.keys(todos);
+  for(let i = 0; i < key.length; i++){
+    const newRow = table.insertRow(-1);
+    const cellA = newRow.insertCell(-1);
+    const cellB = newRow.insertCell(-1);
+    const cellC = newRow.insertCell(-1);
+    const cellD = newRow.insertCell(-1);
+    cellA.textContent = key[i];
+    cellB.textContent = todos[i].comment; 
 
-  for(let i = 0; i < todos.length; i++){
-    table.innerHTML = todos.length;
-    table.innerHTML = todos[comment];
     const statsBtn = document.createElement('button');
     statsBtn.textContent = task.status;
-    table.appendChild(statsBtn);
     const eraceBtn = document.createElement('button');
     eraceBtn.textContent = '削除';
-    table.appendChild(eraceBtn);
-    }
+    cellC.appendChild(statsBtn);
+    cellD.appendChild(eraceBtn);
+    
+  }
 });
-// const A = table.textContent = comment.value
-// const B = table.appendChild(aButton)
-// aButton.value = '作業中';
-// aButton.type = 'button';
-// const C = table.appendChild(dButton)
-// dButton.type = 'button';
-// dButton.value = '削除';
-//const aButton = document.createElement('input');
-//const dButton = document.createElement('input');
-//const tasks = Object.keys(task) 
-//const comment = document.getElementById('comment');//input取得
