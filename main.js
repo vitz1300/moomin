@@ -1,34 +1,43 @@
 'use strict'
-const addButton = document.getElementById('addbutton');
-const table = document.getElementById('my_tbody');//テーブル取得
 const todos = [];
+const addButton = document.getElementById('addbutton');
+const table = document.getElementById('myTbody');//テーブル取得
+function clear(){
+  const clearText = document.getElementById('comment');
+  clearText.value = '';
+}
 console.log(todos);
 
 addButton.addEventListener('click', () => {
-  const task = {
-    comment: document.getElementById('comment').value,
-    status: '作業中',
-  }    
+  let task = {comment: document.getElementById('comment').value,status: '作業中',}    
   todos.push(task);
-  console.log(todos);  
-  
-  table.innerHTML = "";
-  const key = Object.keys(todos);
-  for(let i = 0; i < key.length; i++){
-    const newRow = table.insertRow(-1);
-    const cellA = newRow.insertCell(-1);
-    const cellB = newRow.insertCell(-1);
-    const cellC = newRow.insertCell(-1);
-    const cellD = newRow.insertCell(-1);
-    cellA.textContent = key[i];
-    cellB.textContent = todos[i].comment; 
+  show();
+  clear();
+})
 
-    const statsBtn = document.createElement('button');
-    statsBtn.textContent = task.status;
-    const eraceBtn = document.createElement('button');
-    eraceBtn.textContent = '削除';
-    cellC.appendChild(statsBtn);
-    cellD.appendChild(eraceBtn);
-    
-  }
-});
+function show(){
+  const key = Object.keys(todos);
+    table.innerHTML = "";
+    for(let i = 0; i < key.length; i++){ 
+      const newRow = table.insertRow(-1);
+      const cellId = newRow.insertCell(-1);
+      const cellComment = newRow.insertCell(-1);
+      const cellWork = newRow.insertCell(-1);
+      const cellFinishButton = newRow.insertCell(-1);
+      const eraceBtn = document.createElement('button');
+      const statsBtn = document.createElement('button');
+  
+      cellId.textContent = key[i];
+      cellComment.textContent = todos[i].comment; 
+        statsBtn.textContent = todos[i].status;
+        cellWork.appendChild(statsBtn);
+        eraceBtn.textContent = '削除';
+        cellFinishButton.appendChild(eraceBtn)
+
+      eraceBtn.addEventListener('click',()=>{
+        todos.splice(i,1);
+        console.log(todos);
+        return show();
+      })
+    }
+}
