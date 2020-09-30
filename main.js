@@ -1,6 +1,4 @@
 'use strict'
-
-
 const todos = [];
 const addButton = document.getElementById('addbutton');
 const table = document.getElementById('myTbody');//テーブル取得
@@ -37,7 +35,7 @@ function show(){
       createDeleteBtn.addEventListener('click', () => {
         todos.splice(index,1);
         console.log(todos);
-        show();
+        return show();
       })
     })
   }
