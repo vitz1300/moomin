@@ -1,4 +1,5 @@
 'use strict'
+
 const todos = [];
 const addButton = document.getElementById('addbutton');
 const table = document.getElementById('myTbody');//テーブル取得
