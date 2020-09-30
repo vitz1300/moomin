@@ -35,7 +35,7 @@ function show(){
       createDeleteBtn.addEventListener('click', () => {
         todos.splice(index,1);
         console.log(todos);
-        return show();
+        show();
       })
     })
   }
