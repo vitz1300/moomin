@@ -2,8 +2,6 @@
 const todos = [];
 const addButton = document.getElementById('addbutton');
 const table = document.getElementById('myTbody');//テーブル取得
-const all = document.getElementById('all');
-const go = document.getElementById('go');
 const done = document.getElementById('done');
 function clear(){
   const clearText = document.getElementById('comment');
