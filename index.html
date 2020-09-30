@@ -1,11 +1,35 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>①-4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+  form{
+    display: inline;
+  }
+  </style>
+  <title>ToDo</title>
 </head>
 <body>
-  <script src="main.js">
-  </script>
+  <h1>ToDoリスト</h1>
+  <label><input type="radio" name="todo" checked>すべて</label>
+  <label><input type="radio" name="todo">作業中</label>
+  <label><input type="radio" name="todo">完了</label>
+  <table id="myTable">
+        <thead>
+          <th>ID</th>
+          <th>コメント</th>
+          <th>状態</th>
+        </thead>
+        <tbody id="myTbody">
+        </tbody>
+  </table>
+
+  <h2>新規タスクの追加</h2>
+    
+    <label><input id="comment" type="text" value=""></label>
+  
+  <button id="addbutton">追加</button>
+  <script src="main.js"></script>
 </body>
 </html>

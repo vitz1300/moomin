@@ -1,30 +1,41 @@
 'use strict'
-const main =`==========================\n現在持っているのタスク一覧\n==========================`;
-const tasks = [
-  {content: '机を片付ける、', genre:'掃除'},
-  {content: '牛乳を買う、', genre:'買い物'},
-  {content: '散歩する', genre:'運動'},
-];
-
-  function show(){
-      console.log(main);
-      let id = Object.keys(tasks);
-      const contents = tasks.map(item => item.content);
-      const genres = tasks.map(item => item.genre);
-      for(let i = 0; i < id.length; i++){
-        console.log(id[i]+':[内容]'+contents[i]+'[ジャンル]'+genres[i]);  
-      }
-      };
-  show();
-
-
-function add(){
-  const a = prompt('タスクを入力してください');
-  const b = prompt('タスクを入力してください');
-  tasks.push({content:a,genre:b});
-  show();
-  alert('新しいタスクを追加しました');
-  prompt('「確認、追加、削除、終了」の4つのいずれかを入力してください');
+const todos = [];
+const addButton = document.getElementById('addbutton');
+const table = document.getElementById('myTbody');//テーブル取得
+function clear(){
+  const clearText = document.getElementById('comment');
+  clearText.value = '';
 }
-add();
 
+addButton.addEventListener('click', () => {
+  let task = {comment: document.getElementById('comment').value,status: '作業中',}    
+  todos.push(task);
+  show();
+  clear();
+  console.log(todos);
+})
+
+function show(){
+    table.innerHTML = "";
+    todos.forEach(function(value,index){
+      const newRow = table.insertRow(-1);
+      const cellId = newRow.insertCell(-1);
+      const cellComment = newRow.insertCell(-1);
+      const cellWork = newRow.insertCell(-1);
+      const cellFinishButton = newRow.insertCell(-1);
+      const createDeleteBtn = document.createElement('button');
+      const statsBtn = document.createElement('button');
+      cellId.textContent = index;
+      cellComment.textContent = value.comment; 
+      statsBtn.textContent = value.status;
+      cellWork.appendChild(statsBtn);
+      createDeleteBtn.textContent = '削除';
+      cellFinishButton.appendChild(createDeleteBtn) 
+      
+      createDeleteBtn.addEventListener('click', () => {
+        todos.splice(index,1);
+        console.log(todos);
+        show();
+      })
+    })
+  }
