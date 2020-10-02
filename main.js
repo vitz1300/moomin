@@ -2,7 +2,6 @@
 const todos = [];
 const addButton = document.getElementById('addbutton');
 const table = document.getElementById('myTbody');//テーブル取得
-const done = document.getElementById('done');
 function clear(){
   const clearText = document.getElementById('comment');
   clearText.value = '';
@@ -36,11 +35,11 @@ function show(){
         show();
       })
     statsBtn.addEventListener('click', () => {
-      if(todos[index].status==='作業中'){
+      if(todos[index].status === '作業中'){
         todos[index].status = '完了';
         statsBtn.textContent = todos[index].status;
         cellWork.appendChild(statsBtn);
-      }else if(todos[index].status==='完了'){
+      }else if(todos[index].status === '完了'){
         todos[index].status = '作業中';
         statsBtn.textContent = todos[index].status;
         cellWork.appendChild(statsBtn);
