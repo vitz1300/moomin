@@ -6,7 +6,6 @@ function clear(){
   const clearText = document.getElementById('comment');
   clearText.value = '';
 }
-
 addButton.addEventListener('click', () => {
   let task = {comment: document.getElementById('comment').value,status: '作業中',}    
   todos.push(task);
@@ -14,7 +13,6 @@ addButton.addEventListener('click', () => {
   clear();
   console.log(todos);
 })
-
 function show(){
     table.innerHTML = "";
     todos.forEach(function(value,index){
@@ -34,8 +32,18 @@ function show(){
       
       createDeleteBtn.addEventListener('click', () => {
         todos.splice(index,1);
-        console.log(todos);
         show();
       })
-    })
-  }
+    statsBtn.addEventListener('click', () => {
+      if(todos[index].status === '作業中'){
+        todos[index].status = '完了';
+        statsBtn.textContent = todos[index].status;
+        cellWork.appendChild(statsBtn);
+      }else if(todos[index].status === '完了'){
+        todos[index].status = '作業中';
+        statsBtn.textContent = todos[index].status;
+        cellWork.appendChild(statsBtn);
+      }
+    });
+  })
+}
