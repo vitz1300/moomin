@@ -12,9 +12,12 @@
 </head>
 <body>
   <h1>ToDoリスト</h1>
-  <label><input type="radio" name="todo" checked>すべて</label>
-  <label><input type="radio" name="todo">作業中</label>
-  <label><input type="radio" name="todo">完了</label>
+  <form>
+    <label><input id="all" type="radio" name="todo" onclick="radioSwitch()" checked>すべて</label>
+    <label><input id="go" type="radio" name="todo" onclick="radioSwitch()">作業中</label>
+    <label><input id="done" type="radio" name="todo" onclick="radioSwitch()">完了</label>
+  </form>
+
   <table id="myTable">
         <thead>
           <th>ID</th>
@@ -24,8 +27,11 @@
         <tbody id="myTbody">
         </tbody>
   </table>
+
   <h2>新規タスクの追加</h2>
+    
     <label><input id="comment" type="text" value=""></label>
+  
   <button id="addbutton">追加</button>
   <script src="main.js"></script>
 </body>
