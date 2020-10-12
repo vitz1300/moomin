@@ -5,18 +5,18 @@ const table = document.getElementById('myTbody');
 const all = document.getElementById('all');
 const go = document.getElementById('go');
 const done = document.getElementById('done');
-const clearText = document.getElementById('comment');
+const comment = document.getElementById('comment');
 
 addButton.addEventListener('click', () => {
-  let task = {comment: document.getElementById('comment').value,status: '作業中',}    
+  const task = {comment: comment.value, status: '作業中',}    
   todos.push(task);
   show();
-  radioSwitch()
-  clearText.value = '';
-})
-
-function show(){
-  table.innerHTML = "";
+  switchRadio();
+  comment.value = '';
+});
+  
+  function show(){
+    table.innerHTML = "";
     todos.forEach(function(value,index){
       const newRow = table.insertRow(-1);
       const cellId = newRow.insertCell(-1);
@@ -31,51 +31,54 @@ function show(){
       cellWork.appendChild(statsBtn);
       createDeleteBtn.textContent = '削除';
       cellFinishButton.appendChild(createDeleteBtn) 
-    if(todos[index].status === '作業中'){
-      newRow.classList.add('work')
-      }else if(todos[index].status === '完了'){
-      newRow.classList.add('exit')
-      }
-
-    createDeleteBtn.addEventListener('click', () => {
-      todos.splice(index,1);
-        show();
-        radioSwitch()
-    })
-
-    statsBtn.addEventListener('click', () => {
       if(todos[index].status === '作業中'){
-        newRow.classList.add('exit')
-        newRow.classList.remove('work')
-        todos[index].status = '完了';
-        statsBtn.textContent = todos[index].status;
-        cellWork.appendChild(statsBtn);
-      }else if(todos[index].status === '完了'){
         newRow.classList.add('work')
-        newRow.classList.remove('exit')
-        todos[index].status = '作業中';
-        statsBtn.textContent = todos[index].status;
-        cellWork.appendChild(statsBtn);
-      }
-    radioSwitch()
-  });
-  })
-}
+        }else if(todos[index].status === '完了'){
+        newRow.classList.add('exit')
+        };    
+    createDeleteBtn.addEventListener('click', () => {
+      deleteShow(index);
+      show();
+      switchRadio();
+    });
+    statsBtn.addEventListener('click', () => {
+      change(index);
+      cellWork.appendChild(statsBtn);
+      switchRadio();
+    })
+    })
+  };
 
-  function radioSwitch(){
+  function switchRadio(){
     const todo = document.getElementsByName('todo');
-    const completed =todos.filter(go => go.status === '完了')
-    const in_work =todos.filter(to => to.status === '作業中')
-    const A = table.getElementsByClassName('exit')
-    const B = table.getElementsByClassName('work')
+    const completed =todos.filter(todo => todo.status === '完了');
+    const in_Work =todos.filter(todo => todo.status === '作業中');
+    const exit = table.getElementsByClassName('exit');
+    const work = table.getElementsByClassName('work');
     show();
     if(todo[1].checked){
       for(let i = 0; i < completed.length; i++){
-        A[i].style.display = 'none'    
+        exit[i].style.display = 'none';
       }
     }else if(todo[2].checked){
-      for(let i = 0; i < in_work.length; i++){
-        B[i].style.display = 'none'
-      }  
+      for(let i = 0; i < in_Work.length; i++){
+        work[i].style.display = 'none'
+      }
     }
+  };
+  function change(index){
+    if(todos[index].status === '作業中'){
+      table.querySelector('tr').classList.add('exit');
+      table.querySelector('tr').classList.remove('work');
+      todos[index].status = '完了';
+      document.createElement('button').textContent = todos[index].status;
+    }else if(todos[index].status === '完了'){
+      table.querySelector('tr').classList.add('work');
+      table.querySelector('tr').remove('exit');
+      todos[index].status = '作業中';
+      document.createElement('button').textContent = todos[index].status;
+    }
+  }
+  function deleteShow(index){
+    todos.splice(index,1);
   }
