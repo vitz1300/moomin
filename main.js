@@ -51,8 +51,8 @@ addButton.addEventListener('click', () => {
 
   function switchRadio(){
     const todo = document.getElementsByName('todo');
-    const completed =todos.filter(todo => todo.status === '完了');
-    const in_Work =todos.filter(todo => todo.status === '作業中');
+    const completed =todos.filter(toDo => toDo.status === '完了');
+    const in_Work =todos.filter(toDo => toDo.status === '作業中');
     const exit = table.getElementsByClassName('exit');
     const work = table.getElementsByClassName('work');
     show();
@@ -80,5 +80,5 @@ addButton.addEventListener('click', () => {
     }
   }
   function deleteShow(index){
-    todos.splice(index,1);
+    todos.splice(index, 1);
   }
