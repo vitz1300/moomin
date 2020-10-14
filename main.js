@@ -6,6 +6,7 @@ const all = document.getElementById('all');
 const go = document.getElementById('go');
 const done = document.getElementById('done');
 const comment = document.getElementById('comment');
+const radio =document.getElementById('radio');
 
 addButton.addEventListener('click', () => {
   const task = {comment: comment.value, status: '作業中',}    
@@ -14,6 +15,9 @@ addButton.addEventListener('click', () => {
   switchRadio();
   comment.value = '';
 });
+radio.addEventListener('change', () => {
+  switchRadio()
+})
   
   function show(){
     table.innerHTML = "";
