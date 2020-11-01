@@ -74,6 +74,7 @@ const quiz = () => {
             }
           }
       }
+      
       const Questions = [];
       json.forEach((jsons) => {
         const Questionadd =  new Question (jsons.category,jsons.difficulty,jsons.question,jsons.incorrect_answers,jsons.correct_answer)
