@@ -1,4 +1,5 @@
 'use strict'
+
 const start = document.getElementById('start');
 const welcome = document.getElementById('welcome')
 const button_Click = document.getElementById('button_click')
