@@ -1,5 +1,4 @@
 'use strict'
-
 const start = document.getElementById('start');
 const welcome = document.getElementById('welcome')
 const button_Click = document.getElementById('button_click')
@@ -8,7 +7,9 @@ const genre = document.getElementById('genre');
 const level = document.getElementById('level');
 const new_answer = document.getElementById('new_answer');
 let num = 0;
-const correctAnswer =[];
+const shuffle = [];
+const correct_answer = [];
+const decodeUrl = decodeURI('https://opentdb.com/api.php?amount=10');
 
 start.addEventListener('click', () => {
   welcome.textContent = '取得中'
@@ -18,7 +19,7 @@ start.addEventListener('click', () => {
 });
 
 const quiz = () => {
-  fetch('https://opentdb.com/api.php?amount=11')
+  fetch(decodeUrl)
     .then((response) => {
       return response.json();
     })
@@ -40,27 +41,38 @@ const quiz = () => {
           button_Click.textContent = `${this.question}`; 
           new_answer.innerHTML = '';
           
-          const correctAnswerBtn = document.createElement('button')
-          new_answer.appendChild(correctAnswerBtn);
-          correctAnswerBtn.innerHTML = this.correct_answer
-          
-          correctAnswerBtn.addEventListener('click', () =>{
-            correctAnswer.push(this.correct_answer);
-            num++
-            show();
-          })
           for(let i = 0; i < this.incorrect_answer.length; i++){
-            const inCorrectAnswerBtn = document.createElement('button')
-            new_answer.appendChild(inCorrectAnswerBtn);
-            inCorrectAnswerBtn.innerHTML = this.incorrect_answer[i]
+            shuffle.push(this.incorrect_answer[i])
+          }
+          shuffle.push(this.correct_answer)
+
+          shuffle.forEach(function(){
+            const shuffle_length = shuffle.length;
+            const shuffle_number = Math.floor(Math.random() * shuffle_length);
+            shuffle.push(shuffle[shuffle_number])
+            shuffle.splice(shuffle_number, 1);
+          });
+
+          let answer_click = this.correct_answer;
+
+          shuffle.forEach(function(value){
+            const answerBtn = document.createElement('button')
+            new_answer.appendChild(answerBtn);
+            answerBtn.innerHTML = value;
             
-            inCorrectAnswerBtn.addEventListener('click', () => {
+            answerBtn.addEventListener('click', () => {
               num++
+              if(answerBtn.innerHTML === answer_click){
+                correct_answer.push(answer_click);
+              }
+              exit();
               show();
             })
-            }
+          });
+
+          function exit(){
             if(num === 10){
-              welcome.textContent = `あなたの正解数は${correctAnswer.length}問です`;
+              welcome.textContent = `あなたの正解数は${correct_answer.length}問です`;
               genre.style.display = 'none';
               level.style.display = 'none';
               button_Click.textContent = `再度チャレンジしたい場合は以下をクリック！`;
@@ -74,8 +86,9 @@ const quiz = () => {
               })
             }
           }
+          }
       }
-      
+      console.log(json);
       const Questions = [];
       json.forEach((jsons) => {
         const Questionadd =  new Question (jsons.category,jsons.difficulty,jsons.question,jsons.incorrect_answers,jsons.correct_answer)
@@ -83,6 +96,7 @@ const quiz = () => {
       })
       Questions[0].main();
       function show(){
+        shuffle.length = 0;
         Questions[num].main(json);
       }   
     })
