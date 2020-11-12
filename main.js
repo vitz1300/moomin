@@ -9,7 +9,7 @@ const new_answer = document.getElementById('new_answer');
 let num = 0;
 const shuffle = [];
 const correct_answer = [];
-const decodeUrl = decodeURI('https://opentdb.com/api.php?amount=10');
+const url = 'https://opentdb.com/api.php?amount=10';
 
 start.addEventListener('click', () => {
   welcome.textContent = '取得中'
@@ -19,12 +19,12 @@ start.addEventListener('click', () => {
 });
 
 const quiz = () => {
-  fetch(decodeUrl)
+  fetch(url)
     .then((response) => {
       return response.json();
     })
     .then((jsonData) => {
-      const json = jsonData.results
+      const json = jsonData.results;
       class Question{
         constructor(category, difficulty,question,incorrect_answer,correct_answer){
           this.category = category;
@@ -33,12 +33,21 @@ const quiz = () => {
           this.incorrect_answer = incorrect_answer
           this.correct_answer = correct_answer;
         }
-        
         main(){
           welcome.textContent = `問題${num + 1}`
           genre.textContent = `【ジャンル】${this.category}`;
           level.textContent = `【難易度】${this.difficulty}`;
-          button_Click.textContent = `${this.question}`; 
+
+          const quiz_display = this.question
+          const double_quotation = /&quot;/gim;
+          const first_time_decode = quiz_display.replace(double_quotation, '"');
+          const and = /&amp;/gim;
+          const second_time_decode = first_time_decode.replace(and, '&');
+          const apostrophe = /&#039;/gim;
+          const third_time_decode = second_time_decode.replace(apostrophe, "'");
+          
+          button_Click.textContent = third_time_decode;
+          
           new_answer.innerHTML = '';
           
           for(let i = 0; i < this.incorrect_answer.length; i++){
@@ -88,7 +97,6 @@ const quiz = () => {
           }
           }
       }
-      console.log(json);
       const Questions = [];
       json.forEach((jsons) => {
         const Questionadd =  new Question (jsons.category,jsons.difficulty,jsons.question,jsons.incorrect_answers,jsons.correct_answer)
