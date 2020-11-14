@@ -73,9 +73,8 @@ const quiz = () => {
               num++
               if(answerBtn.innerHTML === answer_click){
                 correct_answer.push(answer_click);
-              }
+              };
               exit();
-              show();
             })
           });
 
@@ -92,8 +91,10 @@ const quiz = () => {
 
               homeButton.addEventListener('click', () => {
                 location.reload();
-              })
-            }
+              });
+            }else{
+              show();
+            };
           }
           }
       }
