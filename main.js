@@ -1,88 +1,115 @@
 'use strict'
-const todos = [];
-const addButton = document.getElementById('addbutton');
-const table = document.getElementById('myTbody');
-const all = document.getElementById('all');
-const go = document.getElementById('go');
-const done = document.getElementById('done');
-const comment = document.getElementById('comment');
-const radio =document.getElementById('radio');
+const start = document.getElementById('start');
+const welcome = document.getElementById('welcome')
+const button_Click = document.getElementById('button_click')
+const contents = document.getElementById('contents');
+const genre = document.getElementById('genre');
+const level = document.getElementById('level');
+const new_answer = document.getElementById('new_answer');
+let num = 0;
+const shuffle = [];
+const correct_answer = [];
+const url = 'https://opentdb.com/api.php?amount=10';
 
-addButton.addEventListener('click', () => {
-  const task = {comment: comment.value, status: '作業中',}    
-  todos.push(task);
-  show();
-  switchRadio();
-  comment.value = '';
+start.addEventListener('click', () => {
+  welcome.textContent = '取得中'
+  button_Click.textContent = '少々お待ちください'
+  start.style.display = 'none';
+  quiz();
 });
-radio.addEventListener('change', () => {
-  switchRadio()
-})
-  
-  function show(){
-    table.innerHTML = "";
-    todos.forEach(function(value,index){
-      const newRow = table.insertRow(-1);
-      const cellId = newRow.insertCell(-1);
-      const cellComment = newRow.insertCell(-1);
-      const cellWork = newRow.insertCell(-1);
-      const cellFinishButton = newRow.insertCell(-1);
-      const createDeleteBtn = document.createElement('button');
-      const statsBtn = document.createElement('button');
-      cellId.textContent = index;
-      cellComment.textContent = value.comment; 
-      statsBtn.textContent = value.status;
-      cellWork.appendChild(statsBtn);
-      createDeleteBtn.textContent = '削除';
-      cellFinishButton.appendChild(createDeleteBtn) 
-      if(todos[index].status === '作業中'){
-        newRow.classList.add('work')
-        }else if(todos[index].status === '完了'){
-        newRow.classList.add('exit')
-        };    
-    createDeleteBtn.addEventListener('click', () => {
-      deleteShow(index);
-      show();
-      switchRadio();
-    });
-    statsBtn.addEventListener('click', () => {
-      change(index);
-      cellWork.appendChild(statsBtn);
-      switchRadio();
-    })
-    })
-  };
 
-  function switchRadio(){
-    const todo = document.getElementsByName('todo');
-    const completed =todos.filter(toDo => toDo.status === '完了');
-    const in_Work =todos.filter(toDo => toDo.status === '作業中');
-    const exit = table.getElementsByClassName('exit');
-    const work = table.getElementsByClassName('work');
-    show();
-    if(todo[1].checked){
-      for(let i = 0; i < completed.length; i++){
-        exit[i].style.display = 'none';
+const quiz = () => {
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((jsonData) => {
+      const json = jsonData.results;
+      class Question{
+        constructor(category, difficulty,question,incorrect_answer,correct_answer){
+          this.category = category;
+          this.difficulty = difficulty;
+          this.question = question;
+          this.incorrect_answer = incorrect_answer
+          this.correct_answer = correct_answer;
+        }
+        main(){
+          welcome.textContent = `問題${num + 1}`
+          genre.textContent = `【ジャンル】${this.category}`;
+          level.textContent = `【難易度】${this.difficulty}`;
+
+          const quiz_display = this.question
+          const double_quotation = /&quot;/gim;
+          const first_time_decode = quiz_display.replace(double_quotation, '"');
+          const and = /&amp;/gim;
+          const second_time_decode = first_time_decode.replace(and, '&');
+          const apostrophe = /&#039;/gim;
+          const third_time_decode = second_time_decode.replace(apostrophe, "'");
+          
+          button_Click.textContent = third_time_decode;
+          
+          new_answer.innerHTML = '';
+          
+          for(let i = 0; i < this.incorrect_answer.length; i++){
+            shuffle.push(this.incorrect_answer[i])
+          }
+          shuffle.push(this.correct_answer)
+
+          shuffle.forEach(function(){
+            const shuffle_length = shuffle.length;
+            const shuffle_number = Math.floor(Math.random() * shuffle_length);
+            shuffle.push(shuffle[shuffle_number])
+            shuffle.splice(shuffle_number, 1);
+          });
+
+          let answer_click = this.correct_answer;
+
+          shuffle.forEach(function(value){
+            const answerBtn = document.createElement('button')
+            new_answer.appendChild(answerBtn);
+            answerBtn.innerHTML = value;
+            
+            answerBtn.addEventListener('click', () => {
+              num++
+              if(answerBtn.innerHTML === answer_click){
+                correct_answer.push(answer_click);
+              };
+              exit();
+            })
+          });
+
+          function exit(){
+            if(num === 10){
+              welcome.textContent = `あなたの正解数は${correct_answer.length}問です`;
+              genre.style.display = 'none';
+              level.style.display = 'none';
+              button_Click.textContent = `再度チャレンジしたい場合は以下をクリック！`;
+              new_answer.innerHTML = '';
+              const homeButton = document.createElement('button')
+              new_answer.appendChild(homeButton);
+              homeButton.innerHTML = `ホームに戻る`;
+
+              homeButton.addEventListener('click', () => {
+                location.reload();
+              });
+            }else{
+              show();
+            };
+          }
+          }
       }
-    }else if(todo[2].checked){
-      for(let i = 0; i < in_Work.length; i++){
-        work[i].style.display = 'none'
-      }
-    }
-  };
-  function change(index){
-    if(todos[index].status === '作業中'){
-      table.querySelector('tr').classList.add('exit');
-      table.querySelector('tr').classList.remove('work');
-      todos[index].status = '完了';
-      document.createElement('button').textContent = todos[index].status;
-    }else if(todos[index].status === '完了'){
-      table.querySelector('tr').classList.add('work');
-      table.querySelector('tr').remove('exit');
-      todos[index].status = '作業中';
-      document.createElement('button').textContent = todos[index].status;
-    }
-  }
-  function deleteShow(index){
-    todos.splice(index, 1);
+      const Questions = [];
+      json.forEach((jsons) => {
+        const Questionadd =  new Question (jsons.category,jsons.difficulty,jsons.question,jsons.incorrect_answers,jsons.correct_answer)
+        Questions.push(Questionadd)
+      })
+      Questions[0].main();
+      function show(){
+        shuffle.length = 0;
+        Questions[num].main(json);
+      }   
+    })
+    .catch(error => {
+      console.log(error);
+    })
   }
